@@ -1,0 +1,22 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /opt/bitnami/projects/Restaurant
+hooks:
+  AfterInstall:
+    - location: scripts/install_dependencies.sh
+      timeout: 600
+      runas: root
+    - location: scripts/collect_static.sh
+      timeout: 500
+      runas: root
+    - location: scripts/migrate.sh
+      timeout: 1000
+      runas: root
+  ApplicationStart:
+    - location: scripts/start_server.sh
+      timeout: 500
+  ApplicationStop:
+    - location: scripts/stop_server.sh
+      timeout: 600
